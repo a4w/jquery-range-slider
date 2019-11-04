@@ -14,6 +14,14 @@ class LinkedListNode{
         return node;
     }
 
+    static insertBefore(node, data){
+        let newNode = new LinkedListNode(data);
+        node.prev.next = node;
+        newNode.prev = node.prev;
+        newNode.next = node;
+        node.prev = newNode;
+    }
+
     static remove(node){
         node.prev.next = node.next;
         node.next.prev = node.prev;
@@ -95,6 +103,11 @@ class LinkedList{
         return current;
     }
 
+    insertBefore(node, data){
+        LinkedListNode.insertBefore(node, data);
+        this.size++;
+    }
+
     remove(node){
         LinkedListNode.remove(node);
         this.size--;
@@ -120,6 +133,10 @@ class LinkedList{
                 break;
             i++;
         }
+    }
+
+    size(){
+        return this.size;
     }
 
 }
