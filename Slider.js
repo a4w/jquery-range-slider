@@ -52,6 +52,7 @@ class Slider{
         if(endValue - startValue < this._options.minRange){
             throw "Range cannot be smaller than " + this._options.minRange;
         }
+
         // Find first start value in current ranges bigger than startValue
         let nextNode = null;
         this._ranges.forEach((index, rangeNode) => {
