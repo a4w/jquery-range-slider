@@ -135,7 +135,7 @@ class LinkedList{
         }
     }
 
-    size(){
+    getSize(){
         return this.size;
     }
 

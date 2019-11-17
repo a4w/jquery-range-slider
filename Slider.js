@@ -32,10 +32,11 @@ class Slider{
     }
 
     recalculateSize(){
-        this._options.width = this._container.clientWidth;
+        this._options.width = this._container.width();
         const max = this._options.max;
         const min = this._options.min;
         const step = this._options.step;
+        this._options.steps = {};
         this._options.steps.count = Math.floor((max - min) / step);
         this._options.steps.width = this._options.width / this._options.steps.count;
         this._recalculateRangesPosition();
@@ -64,7 +65,7 @@ class Slider{
         });
 
         // Sorry
-        let prevNode = nextNode === null ? this._ranges.size() > 0 ? this._ranges.last() : null : nextNode.prev;
+        let prevNode = nextNode === null ? this._ranges.getSize() > 0 ? this._ranges.last() : null : nextNode.prev;
 
         const overlap = this._options.overlappingRanges; 
         if(!overlap && prevNode !== null && prevNode.data.getEnd() > startValue){
@@ -74,19 +75,41 @@ class Slider{
             throw "Overlapping ranges are not allowed";
         }
 
-        const range = this._createRangeObject(startValue, endValue);
+        let n;
         if(nextNode === null){
-            this._ranges.insert(range);
+            n = this._ranges.insert(0);
         }else{
-            this._ranges.insertBefore(nextNode, range);
+            n = this._ranges.insertBefore(nextNode, 0);
         }
+        n.data = this._createRangeObject(n, startValue, endValue);
+
+        // Add to DOM
+        this._container.append(n.data.dom);
     }
 
-    _createRangeObject(startValue, endValue){
+    _valueToOffset(value){
+        //TODO: Come up with a formula 
+        return value * this._options.steps.width;
+    }
+
+    static normalizeEvent(e){
+        let ev = null;
+        // FIXME: Find a better way of handling touch events
+        if(typeof e.touches !== "undefined" && e.touches.length > 0){
+            // Touch event
+            ev = e.touches[0];
+            ev.currentTarget = e.currentTarget;
+            return ev;
+        }
+        return e;
+    }
+
+    _createRangeObject(node, startValue, endValue){
         const range = new SliderRange({
             start: startValue,
             end: endValue,
-            slider: this
+            slider: this,
+            node: node
         });
         return range;
     }

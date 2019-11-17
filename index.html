@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="sliderrange.css"> 
+<div id="slider"></div>
+<script src="jquery.min.js"></script>
+<script src="LinkedList.js"></script>
+<script src="RangeHandle.js"></script>
+<script src="SliderRange.js"></script>
+<script src="Slider.js"></script>
+<script>
+    let slider = new Slider({
+        container: $("#slider"),
+        ranges: [],
+        min: 0,
+        max: 100,
+        step: 1
+    });
+    slider.addRange(2, 6);
+</script>

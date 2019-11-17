@@ -2,7 +2,10 @@ class SliderRange{
     constructor(options){
         this._slider = options.slider;
 
+        this.node = options.node;
+
         // Create handles
+        this._handles = {};
         this._handles.start = this._createHandle(options.start);
         this._handles.end = this._createHandle(options.end);
         
@@ -15,11 +18,12 @@ class SliderRange{
         this.dom.append(this._handles.start.dom);
         this.dom.append(this._handles.end.dom);
         this.dom.append(this._highlight);
+        console.log(this.dom);
     }
 
     _createHandle(value){
         const handle = new RangeHandle({
-            offset: this._slider._valueToOffset(value),
+            value: value,
             slider: this._slider,
             range: this
         });
