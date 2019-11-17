@@ -18,7 +18,6 @@ class SliderRange{
         this.dom.append(this._handles.start.dom);
         this.dom.append(this._handles.end.dom);
         this.dom.append(this._highlight);
-        console.log(this.dom);
     }
 
     _createHandle(value){

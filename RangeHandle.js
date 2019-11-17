@@ -50,7 +50,6 @@ class RangeHandle{
        }
        if(value < lw || value > hi) return;
         this._value = value;
-        console.log(this._value);
         this._offset = this._slider._valueToOffset(value);
         this.dom.css({"left": this._offset});
     }
