@@ -123,4 +123,13 @@ class Slider{
         });
         return range;
     }
+
+    getRanges(){
+        let output = [];
+        this._ranges.forEach((i, node) => {
+            const range = node.data;
+            output.push([range.getStart(), range.getEnd()]);
+        });
+        return output;
+    }
 }
