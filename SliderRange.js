@@ -32,6 +32,14 @@ class SliderRange{
         return this._handles.end.getValue();
     }
 
+    getStartOffset(){
+        return this._handles.start.getOffset();
+    }
+
+    getEndOffset(){
+        return this._handles.end.getOffset();
+    }
+
     _createHandle(value){
         const handle = new RangeHandle({
             value: value,
@@ -48,6 +56,12 @@ class SliderRange{
             'left': startX,
             'width': endX - startX
         });
+    }
+    
+    dispose(){
+        this._highlight.remove();
+        this._handles.start.dom.remove();
+        this._handles.end.dom.remove();
     }
 
 

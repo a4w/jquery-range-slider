@@ -4,7 +4,6 @@ class Slider{
     _container = null;
     _options = {};
     _callbacks = {};
-    _UI_input_fn = {};
 
     constructor(options){
         this._options = options;
@@ -14,8 +13,8 @@ class Slider{
         this._container.addClass("slider-range-container");
 
         // Add event listeners (if double click creation/deletion is enabled)
-        this._container.on("touchstart", this._UI_input_fn.doubleTapDispatcher);
-        this._container.on("dbclick", this._UI_input_fn.dispatchDoubleClickEvent);
+        this._container.on("touchstart", this._UI_input_doubleTapDispatcher);
+        this._container.on("dblclick", this._UI_input_dispatchDoubleClickEvent);
 
         if(typeof options.slide === "function"){
             this._callbacks.slide = options.slide;
@@ -52,9 +51,9 @@ class Slider{
 
     addRange(startValue, endValue){
 
-        // Round down value to be a multiple of step size, with min value as offset
+        // Round value to be a multiple of step size, with min value as offset
         startValue = Math.floor(startValue/this._options.steps.value) * this._options.steps.value;
-        endValue = Math.floor(endValue/this._options.steps.value) * this._options.steps.value;
+        endValue = Math.ceil(endValue/this._options.steps.value) * this._options.steps.value;
 
         if(startValue < this._options.min || endValue > this._options.max){
             throw "Range values selected are larger than allowed";
@@ -108,6 +107,10 @@ class Slider{
         return value * this._options.steps.width;
     }
 
+    _offsetToValue(offset){
+        return Math.floor(offset / this._options.steps.width);
+    }
+
     static normalizeEvent(e){
         let ev = null;
         // FIXME: Find a better way of handling touch events
@@ -137,5 +140,46 @@ class Slider{
             output.push([range.getStart(), range.getEnd()]);
         });
         return output;
+    }
+
+    _UI_input_doubleTapDispatcher = (e) => {}
+    _UI_input_dispatchDoubleClickEvent = (e) => {
+        // Make sure we are "inside" the body and outside any ranges, count on e.target
+        const target = $(e.target);
+        const X = e.pageX - target.offset().left;
+        const Y = e.pageY - target.offset().top;
+        // check to dispatch to appropiate function
+        if(Y <= parseInt(target.css("border-top-width")) || Y >= target.height() - parseInt(target.css("border-bottom-width"))){
+            // Mis-click!
+            return;
+        }
+
+        if(target.hasClass("slider-range-container")){
+            this._UI_createRange(X);
+        }else if(target.hasClass("slider-range-highlight")){
+            this._UI_removeRange(target);
+        }
+
+    }
+
+    _UI_createRange(position){
+        const value = this._offsetToValue(position);
+        this.addRange(value, value + Math.max(this._options.minRange, this._options.steps.value));
+    }
+
+    _UI_removeRange(rangeHighlight){
+        let bye = null;
+        this._ranges.forEach((i, node) => {
+            console.log(node.data._highlight, rangeHighlight);
+            if(node.data._highlight[0] === rangeHighlight[0]){
+                bye = node;
+                console.log("Found, ", node);
+                return false; // break;
+            }
+        });
+        if(bye !== null){
+            this._ranges.remove(bye);
+            bye.data.dispose();
+        }
     }
 }

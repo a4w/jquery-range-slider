@@ -26,8 +26,10 @@ class LinkedListNode{
     }
 
     static remove(node){
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
+        if(node.prev !== null)
+            node.prev.next = node.next;
+        if(node.next !== null)
+            node.next.prev = node.prev;
     }
 }
 
@@ -113,6 +115,10 @@ class LinkedList{
     }
 
     remove(node){
+        if(node === this.head)
+            this.head = this.head.next;
+        if(node === this.tail)
+            this.tail = this.tail.prev;
         LinkedListNode.remove(node);
         this.size--;
     }

@@ -73,6 +73,10 @@ class RangeHandle{
         return this._value;
     }
 
+    getOffset(){
+        return this._offset;
+    }
+
     _dragStart = (e) => {
         e.preventDefault();
         e = Slider.normalizeEvent(e);
