@@ -51,6 +51,10 @@ class Slider{
 
     addRange(startValue, endValue){
 
+        if(this._ranges.getSize() >= this._options.maxNoRanges){
+            throw "Maximum number of ranges reached";
+        }
+
         // Round value to be a multiple of step size, with min value as offset
         startValue = Math.floor(startValue/this._options.steps.value) * this._options.steps.value;
         endValue = Math.ceil(endValue/this._options.steps.value) * this._options.steps.value;
@@ -180,18 +184,24 @@ class Slider{
     }
 
     _UI_removeRange(rangeHighlight){
-        let bye = null;
+        let range = null;
         this._ranges.forEach((i, node) => {
-            console.log(node.data._highlight, rangeHighlight);
             if(node.data._highlight[0] === rangeHighlight[0]){
-                bye = node;
-                console.log("Found, ", node);
+                range = node.data;
                 return false; // break;
             }
         });
-        if(bye !== null){
-            this._ranges.remove(bye);
-            bye.data.dispose();
+        if(range !== null){
+            this.deleteRange(range);
         }
+    }
+
+    deleteRange(range){
+        if(this._ranges.getSize() <= this._options.minNoRanges){
+            throw "Minimum number of ranges reached";
+        }
+        range.dispose();
+        this._ranges.remove(range.node);
+
     }
 }
