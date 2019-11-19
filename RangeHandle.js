@@ -8,7 +8,7 @@ class RangeHandle{
         this.dom.addClass("slider-range-handle");
         this.dom.addClass(this._slider._options.handleClass);
 
-        this.setValue(options.value);
+        this._value = options.value;
 
         // Register events
         this.dom.on("mousedown touchstart", this._dragStart);
@@ -30,19 +30,19 @@ class RangeHandle{
        const startHandle = this._range._handles.start;
        const endHandle = this._range._handles.end;
        const overlap = this._slider._options.overlappingRanges;
-       const minRange = this._slider._options.minRange;
+       const minRange = parseInt(this._slider._options.minRange);
        const max = this._slider._options.max;
        const min = this._slider._options.min;
        let hi, lw;
        if(this === startHandle){
-           hi = endHandle - minRange;
+           hi = endHandle.getValue() - minRange;
            if(overlap){
                lw = min;
            }else{
                lw = this._range.node.prev === null ? min : this._range.node.prev.data.getEnd(); 
            }
        }else{
-           lw = startHandle + minRange;
+           lw = startHandle.getValue() + minRange;
            if(overlap)
                hi = max;
            else
@@ -52,6 +52,10 @@ class RangeHandle{
         this._value = value;
         this._offset = this._slider._valueToOffset(value);
         this.dom.css({"left": this._offset});
+    }
+
+    getValue(){
+        return this._value;
     }
 
     _dragStart = (e) => {

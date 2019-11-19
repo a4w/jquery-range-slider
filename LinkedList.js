@@ -129,8 +129,10 @@ class LinkedList{
         let current = this.head;
         let i = 0;
         while(current !== null){
-            if(callback(i, current) === false)
+            if(callback(i, current) === false){
                 break;
+            }
+            current = current.next;
             i++;
         }
     }

@@ -8,6 +8,8 @@ class SliderRange{
         this._handles = {};
         this._handles.start = this._createHandle(options.start);
         this._handles.end = this._createHandle(options.end);
+        this._handles.start.setValue(options.start);
+        this._handles.end.setValue(options.end);
         
         // Create handle highlight
         this._highlight = $("<div />");
@@ -18,6 +20,14 @@ class SliderRange{
         this.dom.append(this._handles.start.dom);
         this.dom.append(this._handles.end.dom);
         this.dom.append(this._highlight);
+    }
+
+    getStart(){
+        return this._handles.start.getValue();
+    }
+
+    getEnd(){
+        return this._handles.end.getValue();
     }
 
     _createHandle(value){
