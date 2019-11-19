@@ -40,16 +40,14 @@ class RangeHandle{
            if(overlap){
                lw = min;
            }else{
-               lw = this._range.node.prev === null ? min : this._range.node.prev.data.getEnd(); 
+               lw = this._range.node.prev === null ? min : this._range.node.prev.data.getEnd() + minGap; 
            }
-           lw += minGap;
        }else{
            lw = startHandle.getValue() + minRange;
            if(overlap)
                hi = max;
            else
-               hi = this._range.node.next === null ? max : this._range.node.next.data.getStart();
-            hi -= minGap;
+               hi = this._range.node.next === null ? max : this._range.node.next.data.getStart() - minGap;
        }
        if(value < lw || value > hi) return;
         this._value = value;

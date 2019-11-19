@@ -7,19 +7,22 @@ class LinkedListNode{
 
     static insertAfter(node, data){
         let newNode = new LinkedListNode(data);
-        node.next.prev = newNode;
+        if(node.next !== null)
+            node.next.prev = newNode;
         newNode.next = node.next;
         newNode.prev = node;
         node.next = newNode;
-        return node;
+        return newNode;
     }
 
     static insertBefore(node, data){
         let newNode = new LinkedListNode(data);
-        node.prev.next = node;
+        if(node.prev !== null)
+            node.prev.next = newNode;
         newNode.prev = node.prev;
         newNode.next = node;
         node.prev = newNode;
+        return newNode;
     }
 
     static remove(node){
@@ -106,6 +109,7 @@ class LinkedList{
     insertBefore(node, data){
         LinkedListNode.insertBefore(node, data);
         this.size++;
+        return node.prev;
     }
 
     remove(node){
