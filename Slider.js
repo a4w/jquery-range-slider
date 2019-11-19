@@ -142,8 +142,20 @@ class Slider{
         return output;
     }
 
-    _UI_input_doubleTapDispatcher = (e) => {}
+    _UI_input_doubleTapDispatcher = (e) => {
+        if(!this._tmp_doubleTap){
+            this._tmp_doubleTap = true;
+            window.setTimeout(() => {this._tmp_doubleTap = false}, 300);
+            return;
+        }
+        e.preventDefault();
+        this._tmp_doubleTap = false;
+        this._UI_input_dispatchDoubleClickEvent(e);
+    }
+
     _UI_input_dispatchDoubleClickEvent = (e) => {
+        e.preventDefault();
+        e = Slider.normalizeEvent(e);
         // Make sure we are "inside" the body and outside any ranges, count on e.target
         const target = $(e.target);
         const X = e.pageX - target.offset().left;
