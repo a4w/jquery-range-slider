@@ -52,6 +52,7 @@ class RangeHandle{
         this._value = value;
         this._offset = this._slider._valueToOffset(value);
         this.dom.css({"left": this._offset});
+        this._range._redrawHighlight();
     }
 
     getValue(){
