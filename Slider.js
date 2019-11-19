@@ -38,7 +38,8 @@ class Slider{
         const step = this._options.step;
         this._options.steps = {};
         this._options.steps.count = Math.floor((max - min) / step);
-        this._options.steps.width = this._options.width / this._options.steps.count;
+        this._options.steps.width = this._options.width / (this._options.steps.count * step);
+        this._options.steps.value = step;
         this._recalculateRangesPosition();
     }
 
@@ -50,6 +51,11 @@ class Slider{
     }
 
     addRange(startValue, endValue){
+
+        // Round down value to be a multiple of step size, with min value as offset
+        startValue = Math.floor(startValue/this._options.steps.value) * this._options.steps.value;
+        endValue = Math.floor(endValue/this._options.steps.value) * this._options.steps.value;
+
         if(startValue < this._options.min || endValue > this._options.max){
             throw "Range values selected are larger than allowed";
         }

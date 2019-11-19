@@ -58,8 +58,8 @@ class RangeHandle{
        if (old !== this._value) {
             this._slider._callbacks.slide({
                start: {
-                   value: this._value,
-                   element: this.dom
+                   value: this._range._handles.start.getValue(),
+                   element: this._range._handles.start.dom
                },
                end: {
                    element: this._range._handles.end.dom,
@@ -81,6 +81,7 @@ class RangeHandle{
         this.dragInfo.startX = e.pageX;
         this.dragInfo.startValue = this._value;
         this.dragInfo.stepWidth = this._slider._options.steps.width;
+        this.dragInfo.stepValue = this._slider._options.steps.value;
         // Add next events
         $(document).on("mousemove touchmove", this._dragMove);
         $(document).on("mouseup touchend", this._dragEnd);
@@ -90,8 +91,8 @@ class RangeHandle{
         e.preventDefault();
         e = Slider.normalizeEvent(e);
         const dx = e.pageX - this.dragInfo.startX;
-        const steps = Math.floor(dx / this.dragInfo.stepWidth);
-        this.setValue(this.dragInfo.startValue + steps);
+        const steps = Math.floor(dx / (this.dragInfo.stepValue * this.dragInfo.stepWidth));
+        this.setValue(this.dragInfo.startValue + steps * this.dragInfo.stepValue);
     }
 
     _dragEnd = (e) => {
