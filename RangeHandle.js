@@ -50,10 +50,23 @@ class RangeHandle{
                hi = this._range.node.next === null ? max : this._range.node.next.data.getStart() - minGap;
        }
        if(value < lw || value > hi) return;
-        this._value = value;
-        this._offset = this._slider._valueToOffset(value);
-        this.dom.css({"left": this._offset});
-        this._range._redrawHighlight();
+       let old = this._value;
+       this._value = value;
+       this._offset = this._slider._valueToOffset(value);
+       this.dom.css({ "left": this._offset });
+       this._range._redrawHighlight();
+       if (old !== this._value) {
+            this._slider._callbacks.slide({
+               start: {
+                   value: this._value,
+                   element: this.dom
+               },
+               end: {
+                   element: this._range._handles.end.dom,
+                   value: this._range._handles.end.getValue()
+               }
+           });
+       }
     }
 
     getValue(){

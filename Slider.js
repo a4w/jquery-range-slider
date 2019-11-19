@@ -18,7 +18,7 @@ class Slider{
         this._container.on("dbclick", this._UI_input_fn.dispatchDoubleClickEvent);
 
         if(typeof options.slide === "function"){
-            this._callbacks.slide = slide;
+            this._callbacks.slide = options.slide;
         }
 
         // Add initial ranges

@@ -14,7 +14,10 @@
         step: 1,
         overlappingRanges: false,
         minRange: 3,
-        minGap: 6
+        minGap: 6,
+        slide: (range) => {
+            console.log(range);
+        }
     });
     slider.addRange(10, 20);
     slider.addRange(30, 40);
