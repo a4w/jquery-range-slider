@@ -31,6 +31,7 @@ class RangeHandle{
        const endHandle = this._range._handles.end;
        const overlap = this._slider._options.overlappingRanges;
        const minRange = parseInt(this._slider._options.minRange);
+       const minGap = parseInt(this._slider._options.minGap);
        const max = this._slider._options.max;
        const min = this._slider._options.min;
        let hi, lw;
@@ -41,12 +42,14 @@ class RangeHandle{
            }else{
                lw = this._range.node.prev === null ? min : this._range.node.prev.data.getEnd(); 
            }
+           lw += minGap;
        }else{
            lw = startHandle.getValue() + minRange;
            if(overlap)
                hi = max;
            else
                hi = this._range.node.next === null ? max : this._range.node.next.data.getStart();
+            hi -= minGap;
        }
        if(value < lw || value > hi) return;
         this._value = value;

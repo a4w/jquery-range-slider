@@ -74,6 +74,13 @@ class Slider{
         if(!overlap && nextNode !== null && nextNode.data.getStart() < endValue){
             throw "Overlapping ranges are not allowed";
         }
+        const minGap = this._options.minGap;
+        if(nextNode !== null && nextNode.data.getStart() - endValue < minGap){
+            throw "Range breaks the minimum gap";
+        }
+        if(prevNode !== null && startValue - prevNode.data.getEnd() < minGap){
+            throw "Range breaks the minimum gap";
+        }
 
         let n;
         if(nextNode === null){
