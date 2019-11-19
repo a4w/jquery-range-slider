@@ -17,10 +17,6 @@ class Slider{
         this._container.on("touchstart", this._UI_input_fn.doubleTapDispatcher);
         this._container.on("dbclick", this._UI_input_fn.dispatchDoubleClickEvent);
 
-        // Handle resizing the window and calculate slider size
-        $(window).on("resize", this.UI_recalculateSize);
-        this.recalculateSize();
-
         if(typeof options.slide === "function"){
             this._callbacks.slide = slide;
         }
@@ -29,9 +25,13 @@ class Slider{
         for (const range of options.ranges) {
             this.addRange(range[0], range[1]);
         }
+
+        // Handle resizing the window and calculate slider size
+        $(window).on("resize", this.UI_recalculateSize);
+        this.UI_recalculateSize();
     }
 
-    recalculateSize(){
+    UI_recalculateSize = () => {
         this._options.width = this._container.width();
         const max = this._options.max;
         const min = this._options.min;
@@ -43,7 +43,10 @@ class Slider{
     }
 
     _recalculateRangesPosition(){
-        // TODO: Recalculate offsets according to slider size
+        this._ranges.forEach((i, node) => {
+            node.data._handles.start.setValue(node.data._handles.start.getValue());
+            node.data._handles.end.setValue(node.data._handles.end.getValue());
+        });
     }
 
     addRange(startValue, endValue){
@@ -120,8 +123,4 @@ class Slider{
         });
         return range;
     }
-
-
-
-
 }

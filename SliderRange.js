@@ -42,9 +42,6 @@ class SliderRange{
     }
 
     _redrawHighlight(){
-        // Draw highlight from start to end
-        // highlight offset = left offset of start
-        // highlight width = end.value - start.value -> to offset
         const startX = this._slider._valueToOffset(this._handles.start.getValue());
         const endX = this._slider._valueToOffset(this._handles.end.getValue());
         this._highlight.css({
