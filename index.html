@@ -6,9 +6,9 @@
 <script src="RangeHandle.js"></script>
 <script src="SliderRange.js"></script>
 <script src="Slider.js"></script>
+<script src="jquery_wrapper.js"></script>
 <script>
-    let slider = new Slider({
-        container: $("#slider"),
+    $("#slider").Slider({
         ranges: [],
         min: 0,
         max: 100,
@@ -22,5 +22,6 @@
             console.log(range);
         }
     });
-    slider.addRange(0, 5);
+    $("#slider").Slider().addRange(0, 5);
+    
 </script>
