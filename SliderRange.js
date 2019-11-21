@@ -64,5 +64,14 @@ class SliderRange{
         this._handles.end.dom.remove();
     }
 
+    disable(){
+        this._handles.start.disable();
+        this._handles.end.disable();
+    }
+    enable(){
+        this._handles.start.enable();
+        this._handles.end.enable();
+    }
+
 
 } 

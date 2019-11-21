@@ -202,6 +202,21 @@ class Slider{
         }
         range.dispose();
         this._ranges.remove(range.node);
-
     }
+
+    disable(){
+        this._ranges.forEach((index, node) => {
+            const range = node.data;
+            range.disable();
+        });
+        this._container.addClass("slider-range-container-disabled");
+    }
+    enable(){
+        this._ranges.forEach((index, node) => {
+            const range = node.data;
+            range.enable();
+        });
+        this._container.removeClass("slider-range-container-disabled");
+    }
+
 }

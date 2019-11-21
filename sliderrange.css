@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+.slider-range-container-disabled{
+    background-color: #DDD;
+}
+
 .slider-range-handle{
     height: 25px;
     width: 20px;
@@ -24,6 +28,14 @@
 
 .slider-range-handle:hover{
     background-color: #AAA;
+}
+
+.slider-range-handle-disabled{
+    background-color: rgba(180, 180, 180, 1);
+    cursor: not-allowed;
+}
+.slider-range-handle-disabled:hover{
+    background-color: rgba(180, 180, 180, 1);
 }
 
 .slider-range-highlight{

@@ -104,4 +104,14 @@ class RangeHandle{
         this.dragInfo = null;
         $(document).unbind("mousemove touchmove mouseup touchend");
     }
+
+    disable(){
+        this.dom.addClass("slider-range-handle-disabled");
+        this.dom.unbind("mousedown touchstart");
+    }
+
+    enable(){
+        this.dom.removeClass("slider-range-handle-disabled")
+        this.dom.on("mousedown touchstart", this._dragStart);
+    }
 } 
