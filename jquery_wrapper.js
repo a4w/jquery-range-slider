@@ -15,6 +15,11 @@
                 const obj = new Slider(mergedOptions);
                 $(this).data("plugin_" + pluginName, obj);
             });
+        }else if(typeof options === "string"){
+            // function
+            this.each(function(){
+                $(this).data("plugin_" + pluginName)[options]();
+            });
         }
     }
 }(jQuery, window));

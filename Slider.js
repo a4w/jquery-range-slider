@@ -4,6 +4,7 @@ class Slider{
     _container = null;
     _options = {};
     _callbacks = {};
+    _disabled = false;
 
     constructor(options){
         this._options = options;
@@ -102,6 +103,9 @@ class Slider{
         }
         n.data = this._createRangeObject(n, startValue, endValue);
 
+        if(this._disabled){
+            n.data.disable();
+        }
         // Add to DOM
         this._container.append(n.data.dom);
     }
@@ -210,6 +214,8 @@ class Slider{
             range.disable();
         });
         this._container.addClass("slider-range-container-disabled");
+        this._container.unbind("touchstart dblclick");
+        this._disabled = true;
     }
     enable(){
         this._ranges.forEach((index, node) => {
@@ -217,6 +223,9 @@ class Slider{
             range.enable();
         });
         this._container.removeClass("slider-range-container-disabled");
+        this._container.on("touchstart", this._UI_input_doubleTapDispatcher);
+        this._container.on("dblclick", this._UI_input_dispatchDoubleClickEvent);
+        this._disabled = false;
     }
 
 }
