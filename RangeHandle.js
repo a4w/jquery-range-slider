@@ -50,6 +50,27 @@ class RangeHandle{
                hi = this._range.node.next === null ? max : this._range.node.next.data.getStart() - minGap;
        }
        if(value < lw || value > hi) return;
+       // Merge range
+       if(this._slider._options.mergeRanges){
+           let tmp = this._slider._options.minNoRanges;
+           this._slider._options.minNoRanges = 0;
+           if(value === hi && this._range.node.next !== null){
+               // Merge with next range
+               const start = this._range._handles.start.getValue();
+               const end = this._range.node.next.data._handles.end.getValue();
+               this._slider.deleteRange(this._range.node.next.data);
+               this._slider.deleteRange(this._range);
+               this._slider.addRange(start, end);
+           }else if(value === lw && this._range.node.prev !== null){
+               const start = this._range.node.prev.data._handles.start.getValue();
+               const end = this._range._handles.end.getValue();
+               this._slider.deleteRange(this._range.node.prev.data);
+               this._slider.deleteRange(this._range);
+               this._slider.addRange(start, end);
+           }
+           this._slider._options.minNoRanges = tmp;
+
+       }
        let old = this._value;
        this._value = value;
        this._offset = this._slider._valueToOffset(value);

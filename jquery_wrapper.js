@@ -9,7 +9,8 @@
         minRange: 1,
         minGap: 0,
         minNoRanges: 0,
-        maxNoRanges: 100
+        maxNoRanges: 100,
+        mergeRanges: true
     };
     $.fn[pluginName] = function(options = null, args = []){
         if (options === null) {
