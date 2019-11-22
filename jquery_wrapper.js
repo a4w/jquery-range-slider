@@ -1,7 +1,15 @@
 ;(function ( $, window, undefined ) {
     const pluginName = "Slider";
     const defaults = {
-        
+        ranges: [],
+        min: 0,
+        max: 100,
+        step: 1,
+        overlappingRanges: false,
+        minRange: 1,
+        minGap: 0,
+        minNoRanges: 0,
+        maxNoRanges: 100
     };
     $.fn[pluginName] = function(options = null, args = []){
         if (options === null) {
