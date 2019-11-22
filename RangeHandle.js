@@ -78,15 +78,17 @@ class RangeHandle{
        this._range._redrawHighlight();
        if (old !== this._value) {
             this._slider._callbacks.slide({
-               start: {
-                   value: this._range._handles.start.getValue(),
-                   element: this._range._handles.start.dom
-               },
-               end: {
-                   element: this._range._handles.end.dom,
-                   value: this._range._handles.end.getValue()
-               }
-           });
+                start: {
+                    value: this._range._handles.start.getValue(),
+                    element: this._range._handles.start.dom,
+                    me: this === this._range._handles.start
+                },
+                end: {
+                    element: this._range._handles.end.dom,
+                    value: this._range._handles.end.getValue(),
+                    me: this === this._range._handles.end
+                }
+            });
        }
     }
 
