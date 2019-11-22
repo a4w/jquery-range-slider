@@ -3,7 +3,7 @@
     const defaults = {
         
     };
-    $.fn[pluginName] = function(options = null){
+    $.fn[pluginName] = function(options = null, args = []){
         if (options === null) {
             // Return only one (anti pattern, TODO: change later)
             return $(this).data("plugin_" + pluginName);
@@ -17,9 +17,11 @@
             });
         }else if(typeof options === "string"){
             // function
+            let returnArr = [];
             this.each(function(){
-                $(this).data("plugin_" + pluginName)[options]();
+                returnArr.push($(this).data("plugin_" + pluginName)[options](...args));
             });
+            return returnArr;
         }
     }
 }(jQuery, window));
