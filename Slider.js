@@ -20,6 +20,15 @@ class Slider{
         if(typeof options.slide === "function"){
             this._callbacks.slide = options.slide;
         }
+        if(typeof options.create === "function"){
+            this._callbacks.create = options.create;
+        }
+        if(typeof options.merge === "function"){
+            this._callbacks.merge = options.merge;
+        }
+        if(typeof options.remove === "function"){
+            this._callbacks.remove = options.remove;
+        }
 
         // Add initial ranges
         for (const range of options.ranges) {
@@ -108,6 +117,17 @@ class Slider{
         }
         // Add to DOM
         this._container.append(n.data.dom);
+        this._callbacks.create({
+            slider: this._container,
+            start: {
+                element: n.data._handles.start.dom,
+                value: n.data._handles.start.getValue()
+            },
+            end: {
+                element: n.data._handles.end.dom,
+                value: n.data._handles.end.getValue()
+            }
+        });
     }
 
     _valueToOffset(value){
@@ -206,6 +226,7 @@ class Slider{
         }
         range.dispose();
         this._ranges.remove(range.node);
+        this._callbacks.remove(this._container);
     }
 
     disable(){

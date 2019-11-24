@@ -10,7 +10,11 @@
         minGap: 0,
         minNoRanges: 0,
         maxNoRanges: 100,
-        mergeRanges: true
+        mergeRanges: true,
+        create: () => {},
+        remove: () => {},
+        merge: () => {},
+        slide: () => {}
     };
     $.fn[pluginName] = function(options = null, args = []){
         if (options === null) {

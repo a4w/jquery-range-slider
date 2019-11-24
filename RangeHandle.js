@@ -61,12 +61,14 @@ class RangeHandle{
                this._slider.deleteRange(this._range.node.next.data);
                this._slider.deleteRange(this._range);
                this._slider.addRange(start, end);
+               this._slider._callbacks.merge();
            }else if(value === lw && this._range.node.prev !== null){
                const start = this._range.node.prev.data._handles.start.getValue();
                const end = this._range._handles.end.getValue();
                this._slider.deleteRange(this._range.node.prev.data);
                this._slider.deleteRange(this._range);
                this._slider.addRange(start, end);
+               this._slider._callbacks.merge();
            }
            this._slider._options.minNoRanges = tmp;
 
@@ -78,6 +80,7 @@ class RangeHandle{
        this._range._redrawHighlight();
        if (old !== this._value) {
             this._slider._callbacks.slide({
+                slider: this._slider._container,
                 start: {
                     value: this._range._handles.start.getValue(),
                     element: this._range._handles.start.dom,
