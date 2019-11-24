@@ -235,7 +235,8 @@ class Slider{
             range.disable();
         });
         this._container.addClass("slider-range-container-disabled");
-        this._container.unbind("touchstart dblclick");
+        this._container.unbind("touchstart");
+        this._container.unbind("dblclick");
         this._disabled = true;
     }
     enable(){
@@ -244,6 +245,8 @@ class Slider{
             range.enable();
         });
         this._container.removeClass("slider-range-container-disabled");
+        this._container.unbind("touchstart");
+        this._container.unbind("dblclick");
         this._container.on("touchstart", this._UI_input_doubleTapDispatcher);
         this._container.on("dblclick", this._UI_input_dispatchDoubleClickEvent);
         this._disabled = false;
