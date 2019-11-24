@@ -111,6 +111,8 @@ class LinkedList{
     insertBefore(node, data){
         LinkedListNode.insertBefore(node, data);
         this.size++;
+        if(this.head === node)
+            this.head = node.prev;
         return node.prev;
     }
 
