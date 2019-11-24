@@ -14,8 +14,7 @@ class Slider{
         this._container.addClass("slider-range-container");
 
         // Add event listeners (if double click creation/deletion is enabled)
-        this._container.on("touchstart", this._UI_input_doubleTapDispatcher);
-        this._container.on("dblclick", this._UI_input_dispatchDoubleClickEvent);
+        this._bindUIEvents();
 
         if(typeof options.slide === "function"){
             this._callbacks.slide = options.slide;
@@ -38,6 +37,13 @@ class Slider{
         // Handle resizing the window and calculate slider size
         $(window).on("resize", this.UI_recalculateSize);
         this.UI_recalculateSize();
+    }
+
+    _bindUIEvents(){
+        this._container.on("touchstart click", this._UI_input_doubleTapDispatcher);
+    }
+    _unbindUIEvents(){
+        this._container.unbind("touchstart click");
     }
 
     UI_recalculateSize = () => {
@@ -235,8 +241,7 @@ class Slider{
             range.disable();
         });
         this._container.addClass("slider-range-container-disabled");
-        this._container.unbind("touchstart");
-        this._container.unbind("dblclick");
+        this._unbindUIEvents();
         this._disabled = true;
     }
     enable(){
@@ -245,10 +250,8 @@ class Slider{
             range.enable();
         });
         this._container.removeClass("slider-range-container-disabled");
-        this._container.unbind("touchstart");
-        this._container.unbind("dblclick");
-        this._container.on("touchstart", this._UI_input_doubleTapDispatcher);
-        this._container.on("dblclick", this._UI_input_dispatchDoubleClickEvent);
+        this._unbindUIEvents();
+        this._bindUIEvents();
         this._disabled = false;
     }
 
